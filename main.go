@@ -8,7 +8,7 @@ import (
 
 const (
 	width  = 100
-	height = 30
+	height = 6
 )
 
 type Board [][]bool
@@ -77,7 +77,6 @@ func (b Board) isEmpty() bool {
 }
 
 func main() {
-
 	for {
 		board := NewBoard()
 		// Randomly initialize the board
