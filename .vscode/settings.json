@@ -3,6 +3,6 @@
     "GOOS": "darwin",
     "GOARCH": "arm64",
     "GOROOT": "/Users/entodima/Library/Caches/tinygo/goroot-1168de679c67424653579cf6eb280d2cb41020f6710bbb8fc4c6532851c233c2",
-    "GOFLAGS": "-tags=xtensa,baremetal,linux,arm,esp8266,esp,nodemcu,tinygo,purego,osusergo,math_big_pure_go,gc.conservative,scheduler.tasks,serial.uart"
+    "GOFLAGS": "-tags=xtensa,baremetal,linux,arm,esp32,esp,esp32_coreboard_v2,tinygo,purego,osusergo,math_big_pure_go,gc.conservative,scheduler.tasks,serial.uart"
   }
 }
