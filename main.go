@@ -1,14 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"image/color"
+	"machine"
 	"math/rand"
 	"time"
+
+	"tinygo.org/x/drivers/ssd1306"
 )
 
 const (
-	width  = 10
-	height = 10
+	address = 0x3C
+	width   = 128
+	height  = 64
+
+	alivePercent = 0.2 // 20% chance of being alive
 )
 
 type Board [][]bool
@@ -19,19 +25,6 @@ func NewBoard() Board {
 		board[i] = make([]bool, width)
 	}
 	return board
-}
-
-func (b Board) Print() {
-	for _, row := range b {
-		for _, cell := range row {
-			if cell {
-				fmt.Print("O")
-			} else {
-				fmt.Print(".")
-			}
-		}
-		fmt.Println()
-	}
 }
 
 func (b Board) Next() Board {
@@ -76,21 +69,48 @@ func (b Board) isEmpty() bool {
 	return true
 }
 
+func (b Board) Draw(display ssd1306.Device) {
+	for y := range b {
+		for x := range b[y] {
+			if b[y][x] {
+				display.SetPixel(int16(x), int16(y), color.RGBA{0, 0, 0, 0})
+			} else {
+				display.SetPixel(int16(x), int16(y), color.RGBA{0, 0, 0, 255})
+			}
+		}
+	}
+	display.Display()
+}
+
 func main() {
+	machine.I2C0.Configure(machine.I2CConfig{
+		Frequency: machine.TWI_FREQ_400KHZ,
+	})
+
+	display := ssd1306.NewI2C(machine.I2C0)
+	display.Configure(ssd1306.Config{
+		Address: address,
+		Width:   width,
+		Height:  height,
+	})
+
+	display.ClearDisplay()
+
 	for {
 		board := NewBoard()
 		// Randomly initialize the board
 		for y := range board {
 			for x := range board[y] {
-				board[y][x] = rand.Float64() < 0.2 // 20% chance of being alive
+				board[y][x] = rand.Float64() < alivePercent
 			}
 		}
 
 		for !board.isEmpty() {
-			board.Print()
+			board.Draw(display)
 			board = board.Next()
 			time.Sleep(time.Second)
-			fmt.Print("\033[H\033[2J") // Clear the screen
+
+			display.ClearDisplay()
 		}
 	}
 }
