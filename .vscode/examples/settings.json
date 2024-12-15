@@ -1,8 +1,8 @@
 {
   "go.toolsEnvVars": {
-    "GOOS": "darwin",
-    "GOARCH": "arm64",
-    "GOROOT": "/Users/entodima/Library/Caches/tinygo/goroot-1168de679c67424653579cf6eb280d2cb41020f6710bbb8fc4c6532851c233c2",
+    "GOOS": "darwin",   // macOS
+    "GOARCH": "arm64",  // Apple Silicon
+    "GOROOT": "",       // $sh: tinygo info [name of your board (esp32-coreboard-v2, nodemcu, ...)]
     "GOFLAGS": "-tags=xtensa,baremetal,linux,arm,esp8266,esp,nodemcu,tinygo,purego,osusergo,math_big_pure_go,gc.conservative,scheduler.tasks,serial.uart"
   }
 }

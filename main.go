@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	width  = 100
-	height = 6
+	width  = 10
+	height = 10
 )
 
 type Board [][]bool
